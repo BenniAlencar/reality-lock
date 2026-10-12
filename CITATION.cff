@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use Reality Lock in research or production, please cite it as below."
+authors:
+  - name: "Benni OS Core Engineering Group"
+    website: "https://bennios.dev"
+title: "Reality Lock: The Deterministic Zero-Trust & Evidence Engine for AI Agents & MCP"
+version: 1.0.0
+date-released: 2026-10-11
+url: "https://github.com/benni-os/reality-lock"
+keywords:
+  - "ai-agents"
+  - "zero-trust"
+  - "hallucination-prevention"
+  - "model-context-protocol"
+  - "verifiable-evidence"
