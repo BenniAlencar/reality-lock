@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0D0D0D,50:003816,100:00FF66&height=200&section=header&text=reality-lock&fontSize=56&fontColor=ffffff&fontAlignY=38&desc=Deterministic%20Zero-Trust%20%26%20Observed%20Physical%20Evidence%20Engine%20for%20AI%20Agents&descAlignY=58&descSize=16&animation=fadeIn" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0D0D0D,50:003816,100:00FF66&height=200&section=header&text=reality-lock&fontSize=56&fontColor=ffffff&fontAlignY=38&desc=Deterministic%20Zero-Trust%20and%20Observed%20Physical%20Evidence%20Engine%20for%20AI%20Agents&descAlignY=58&descSize=16&animation=fadeIn" width="100%"/>
 
 <br/>
 
