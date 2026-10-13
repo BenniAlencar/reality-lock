@@ -57,17 +57,17 @@ Derived from the **Benni Master OS v9.4 Doctrine**, Reality Lock forces every ag
 
 ```mermaid
 graph TD
-    A["1. INTENT<br><i>What the agent claims it wants to do</i>"] --> B["2. PLAN<br><i>Target arguments & payload SHA-256 digest</i>"]
+    A["1. INTENT<br><i>What the agent claims it wants to do</i>"] --> B["2. PLAN<br><i>Target arguments and payload SHA-256 digest</i>"]
     B --> C{"POLICY GATE<br><i>Default-Deny Inspection</i>"}
     C -->|High Risk Mutation| D["REVIEW REQUIRED<br><i>Human-in-the-Loop Approval</i>"]
     C -->|Explicitly Denied| E["REJECTED<br><i>Action Blocked</i>"]
-    C -->|Approved / Read-Only| F["3. DISPATCH<br><i>Pre-execution physical snapshot taken</i>"]
+    C -->|Approved or Read-Only| F["3. DISPATCH<br><i>Pre-execution physical snapshot taken</i>"]
     D -->|Operator Approves| F
     D -->|Operator Declines| E
     F --> G["4. EXECUTION<br><i>Real subprocess, file I/O, or network call</i>"]
     G --> H{"PHYSICAL VERIFIER<br><i>Exit code? Disk SHA-256 diff? HTTP 2xx?</i>"}
-    H -->|Evidence Inconsistent| I["HALLUCINATION DETECTED<br><i>Receipt marked verified=False & Rejected</i>"]
-    H -->|Observed Evidence Verified| J["5. OBSERVED EVIDENCE<br><i>Cryptographic Receipt Sealed & Stored</i>"]
+    H -->|Evidence Inconsistent| I["HALLUCINATION DETECTED<br><i>Receipt marked verified=False and Rejected</i>"]
+    H -->|Observed Evidence Verified| J["5. OBSERVED EVIDENCE<br><i>Cryptographic Receipt Sealed and Stored</i>"]
 ```
 
 > **The Golden Law**: If an action does not yield observed, physical evidence (exit code 0, matching disk byte hash, HTTP status confirmation), **it did not happen.**
