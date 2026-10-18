@@ -8,6 +8,7 @@
 
 <br/><br/>
 
+[![PyPI](https://img.shields.io/pypi/v/reality-lock?color=00FF66&style=for-the-badge&logo=pypi&logoColor=0D0D0D)](https://pypi.org/project/reality-lock/)
 [![CI](https://github.com/BenniAlencar/reality-lock/actions/workflows/ci.yml/badge.svg)](https://github.com/BenniAlencar/reality-lock/actions/workflows/ci.yml)
 [![Tests](https://img.shields.io/badge/Tests-29%20Passed-00FF66?style=for-the-badge&logo=pytest&logoColor=0D0D0D)](tests/)
 [![Python](https://img.shields.io/badge/Python-3.10+-00FF66?style=for-the-badge&logo=python&logoColor=0D0D0D)](https://www.python.org/)
