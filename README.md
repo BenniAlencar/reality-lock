@@ -26,6 +26,12 @@
   No AI agent is permitted to claim task completion without observed, cryptographic, physical evidence.
 </p>
 
+<br/>
+
+<img src="assets/demo.svg" alt="Reality Lock Terminal Execution Demo" width="100%"/>
+
+<br/><br/>
+
 [Quickstart](#-quickstart-in-30-seconds) •
 [Why Reality Lock?](#-the-problem-the-agent-hallucination-of-done) •
 [Architecture](#-the-5-iron-states-of-execution) •
