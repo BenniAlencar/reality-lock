@@ -30,7 +30,7 @@
 
 <br/>
 
-<img src="assets/demo.svg" alt="Reality Lock Terminal Execution Demo" width="100%"/>
+<img src="assets/demo.gif" alt="Reality Lock Terminal Execution Demo" width="100%"/>
 
 <br/><br/>
 
