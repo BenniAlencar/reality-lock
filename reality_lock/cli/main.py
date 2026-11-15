@@ -172,5 +172,42 @@ def init():
     console.print(f"[bold green]✔ Initialized configuration at[/bold green] [cyan]{target.resolve()}[/cyan]")
 
 
+@cli.command("doctor")
+@click.option("--json", "as_json", is_flag=True, help="Output diagnostics as JSON.")
+def doctor(as_json: bool):
+    """Probes runtime environment, PolicyGate, physical verifiers, and receipt sealing."""
+    from reality_lock.tools.doctor import run_doctor
+
+    report = run_doctor()
+    if as_json:
+        click.echo(json.dumps(report.to_dict(), indent=2))
+        return
+    _print_branding()
+    status_color = "green" if report.healthy else "red"
+    console.print(f"Health: [{status_color}]{'HEALTHY' if report.healthy else 'DEGRADED'}[/{status_color}] | Python {report.python_version}")
+    console.print(
+        f"Receipt Seal: {'OK' if report.receipt_seal_probe_ok else 'FAIL'} | "
+        f"Policy Deny: {'OK' if report.policy_deny_probe_ok else 'FAIL'} | "
+        f"FS Verifier: {'OK' if report.filesystem_verifier_ok else 'FAIL'} ({report.probe_latency_ms} ms)"
+    )
+
+
+@cli.command("matrix")
+@click.option("--actions", default="25,100,250", help="Comma-separated action counts.")
+@click.option("--reps", default=2, help="Repetitions per cell.")
+@click.option("--json", "as_json", is_flag=True, help="Output matrix results as JSON.")
+def matrix(actions: str, reps: int, as_json: bool):
+    """Runs the multi-mode receipt verification throughput benchmark matrix."""
+    from reality_lock.tools.bench_matrix import BenchMatrixRunner
+
+    action_counts = [int(s.strip()) for s in actions.split(",") if s.strip()]
+    runner = BenchMatrixRunner(action_counts=action_counts, reps=reps)
+    data = runner.run_matrix()
+    if as_json:
+        click.echo(json.dumps(data, indent=2))
+    else:
+        click.echo(runner.format_markdown_table(data))
+
+
 if __name__ == "__main__":
     cli()

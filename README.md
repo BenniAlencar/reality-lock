@@ -10,7 +10,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/reality-lock?color=00FF66&style=for-the-badge&logo=pypi&logoColor=0D0D0D)](https://pypi.org/project/reality-lock/)
 [![CI](https://github.com/BenniAlencar/reality-lock/actions/workflows/ci.yml/badge.svg)](https://github.com/BenniAlencar/reality-lock/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/Tests-29%20Passed-00FF66?style=for-the-badge&logo=pytest&logoColor=0D0D0D)](tests/)
+[![Tests](https://img.shields.io/badge/Tests-33%20Passed-00FF66?style=for-the-badge&logo=pytest&logoColor=0D0D0D)](tests/)
 [![Python](https://img.shields.io/badge/Python-3.10+-00FF66?style=for-the-badge&logo=python&logoColor=0D0D0D)](https://www.python.org/)
 [![MCP](https://img.shields.io/badge/MCP-Zero--Trust%20Gate-00FF66?style=for-the-badge&logo=anthropic&logoColor=0D0D0D)](https://modelcontextprotocol.io/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-0D0D0D?style=for-the-badge&logo=apache&logoColor=00FF66)](LICENSE)
@@ -62,6 +62,38 @@ In 2026, AI agents (built on LangChain, CrewAI, AutoGen, Claude Computer Use, or
 ## 🏗️ The 5 Iron States of Execution
 
 Derived from the **Benni Master OS v9.4 Doctrine**, Reality Lock forces every agent action through a strict finite-state machine:
+
+```text
+  LangChain / CrewAI / MCP Clients / @reality_locked Python Functions
+         │
+         ├──► RealityLockEngine.execute / lock_command
+         └──► McpToolGate (JSON-RPC 2.0 Zero-Trust Gate)
+                       │
+                       ▼
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │                            reality-lock                             │
+  │                                                                     │
+  │  ┌───────────────────┐  ┌───────────────────┐  ┌─────────────────┐  │
+  │  │ Default-Deny      │  │  5-State Engine   │  │ Physical        │  │
+  │  │ PolicyGate        │─►│  INTENT -> PLAN   │─►│ Verifiers       │  │
+  │  │ • RiskLevel       │  │  -> DISPATCH      │  │ • Command       │  │
+  │  │ • Human Approval  │  │  -> EXECUTION     │  │ • Filesystem    │  │
+  │  └───────────────────┘  └───────────────────┘  │ • HTTP 2xx      │  │
+  │                                                └─────────────────┘  │
+  │  ┌───────────────────┐  ┌───────────────────┐  ┌─────────────────┐  │
+  │  │ Cryptographic     │  │  Framework        │  │ Tools & CLI     │  │
+  │  │ ExecutionReceipt  │  │  Adapters         │  │ • doctor        │  │
+  │  │ • SHA-256 Seal    │  │  • @reality_locked│  │ • bench_matrix  │  │
+  │  │ • Tamper Check    │  │  • LangChain/Crew │  │ • verify-cmd    │  │
+  │  └───────────────────┘  └───────────────────┘  └─────────────────┘  │
+  └─────────────────────────────────────────────────────────────────────┘
+         │                                         │
+         ▼                                         ▼
+   Physical Evidence Ledger                 SHA-256 ExecutionReceipt
+   (.reality_ledger.jsonl)                  Zero Hallucination of Done
+```
+
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full internal specification.
 
 ```mermaid
 graph TD
@@ -232,6 +264,73 @@ reality-lock audit .reality_ledger.jsonl
 
 # Generate initial zero-trust configuration
 reality-lock init
+
+# Probe runtime environment, PolicyGate, physical verifiers & receipt sealing
+reality-lock doctor
+
+# Run multi-mode receipt verification throughput benchmark matrix
+reality-lock matrix --actions 25,100,250
+```
+
+<br/>
+
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/dark.png" width="100%"/>
+
+## 📁 Project Structure
+
+```text
+reality-lock/
+├── docs/
+│   └── ARCHITECTURE.md                  # Skill 62 5-state zero-trust specification
+├── examples/
+│   ├── 01_quickstart_function.py        # @reality_locked function decorator guard
+│   ├── 02_command_with_evidence.py      # Subprocess execution with CommandVerifier
+│   ├── 03_file_mutation_guard.py        # Disk SHA-256 verification with FilesystemVerifier
+│   ├── 04_mcp_security_proxy.py         # Model Context Protocol (MCP) zero-trust gate
+│   └── 05_langchain_agent_guard.py      # LangChain callback handler integration
+├── reality_lock/
+│   ├── __init__.py                      # Public package exports
+│   ├── py.typed                         # PEP 561 type marker
+│   ├── version.py                       # Version, doctrine & maintainer metadata
+│   ├── adapters/
+│   │   ├── __init__.py                  # Adapter exports
+│   │   ├── crewai.py                    # CrewAI tool wrapper
+│   │   ├── decorator.py                 # @reality_locked Python decorator
+│   │   ├── langchain.py                 # LangChain callback handler
+│   │   └── mcp.py                       # Native MCP JSON-RPC 2.0 zero-trust gate
+│   ├── cli/
+│   │   ├── __init__.py                  # CLI package marker
+│   │   └── main.py                      # Click + Rich CLI (info, verify-cmd, audit, init, doctor, matrix)
+│   ├── core/
+│   │   ├── __init__.py                  # Core engine exports
+│   │   ├── engine.py                    # RealityLockEngine 5-state coordinator
+│   │   ├── policy.py                    # Default-Deny PolicyGate & HITL approvals
+│   │   ├── receipt.py                   # SHA-256 sealed ExecutionReceipt & tamper check
+│   │   └── states.py                    # ExecutionState, RiskLevel & PolicyDecision enums
+│   ├── tools/
+│   │   ├── __init__.py                  # Diagnostics & benchmark tool exports
+│   │   ├── bench_matrix.py              # Multi-mode receipt throughput benchmark matrix
+│   │   └── doctor.py                    # Environment, PolicyGate & verifier probe
+│   └── verifiers/
+│       ├── __init__.py                  # Verifier exports
+│       ├── base.py                      # Abstract BaseVerifier & EvidenceResult
+│       ├── command.py                   # Subprocess exit-code & digest verifier
+│       ├── filesystem.py                # Disk existence & SHA-256 mutation verifier
+│       └── http.py                      # HTTP 2xx status & header redaction verifier
+├── scripts/
+│   ├── benchmark_receipt_throughput.py  # In-memory vs JSONL receipt sealing benchmark
+│   └── gate_reality_lock_runner.py      # Fail-closed zero-trust & evidence gate runner
+└── tests/
+    ├── __init__.py                      # Test suite package marker
+    ├── conftest.py                      # Shared pytest fixtures
+    ├── test_cli.py                      # Click CLI command tests
+    ├── test_decorator.py                # @reality_locked decorator tests
+    ├── test_engine.py                   # 5-state engine & JSONL persistence tests
+    ├── test_mcp_adapter.py              # MCP tool gate & risk inference tests
+    ├── test_policy_gate.py              # Default-Deny policy & callback tests
+    ├── test_states_and_receipts.py      # Receipt sealing & tamper detection tests
+    ├── test_tools_and_scripts.py        # Doctor, bench_matrix & gate script tests
+    └── test_verifiers.py                # Command, Filesystem & HTTP verifier tests
 ```
 
 <br/>
